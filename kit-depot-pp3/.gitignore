@@ -1,0 +1,16 @@
+# Fichiers produits par la compilation : ils se régénèrent, on ne les versionne pas
+bin/
+obj/
+
+# Réglages personnels des IDE
+.idea/
+.vs/
+*.user
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Secrets : jamais dans un dépôt
+.env
+*.secret
