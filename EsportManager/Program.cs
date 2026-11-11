@@ -1,10 +1,12 @@
 ﻿using System;
-using EsportManager; // j'importe toute les class du dossier e-sport
-using Microsoft.Data.Sqlite;
+using EsportManager; // j'importe toute les class du dossier EsportManager
+using Microsoft.Data.Sqlite; // j'importe le package Microsoft sqlite
 
-bdd.connection(); // lance la connexion a la base de donnée 
+bdd.Connection(); // lance la connexion à la base de donnée 
 
-List<Dictionary<string, object>> lignes = bdd.getLineIf("Mage", "Id", 3);
-Console.WriteLine($"Nom : {lignes[0]["Nom"]}, Prenom : {lignes[0]["Prenom"]}, PV : {lignes[0]["PV"]}");
 
-bdd.closeConnection(); // ferme la connexion a la base de donné
+// ici, on peut intéragir avec la base de donnée via bdd._connexion
+// ou en utilisant bdd.NomDuneMethode()
+
+
+bdd.CloseConnection(); // ferme la connexion à la base de donnée

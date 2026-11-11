@@ -1,50 +1,50 @@
 ﻿namespace EsportManager;
-using Microsoft.Data.Sqlite; // j'importe le plugin Microsoft Sqlite 
+using Microsoft.Data.Sqlite; // j'utilise le packages Microsoft Sqlite 
 using System;
 
 /* c'est une class static (sans instanciation) bdd
- * qui contient le liens avec la base de donnée et
- * des méthode (fonction) pour intéragir avec la base de donnée
- * on pourra ajouter des méthode en fonction des besoin
- * pour le moment il n'y a que des méthode generique
+ * qui contient le lien avec la base de donnée et
+ * des méthodes (fonction) pour intéragir avec la base de donnée
+ * On pourra ajouter des méthodes en fonction des besoins
+ * pour le moment, il n'y a que des méthodes generique
  * ---------------------------------------------------
- * pour utiliser une méthode il sufit d'écrire bdd.NomDeLaMéthode()
- * vous pouvez aussi directement utilisé la connexion a la base de donné via bdd._connexion
+ * pour utiliser une méthode, il suffit d'écrire bdd.NomDeLaMéthode()
+ * vous pouvez aussi directement utiliser la connexion à la base de donnée via bdd._connexion
  * pour intéragir avec la bdd directement dans le code */
 
-/* liste des méthode ajouté :
- * connection
- * closeConnection
+/* liste des méthodes ajoutées :
+ * Connection
+ * CloseConnection
  * UpdateValue
- * getValue
- * readTable
- * getTable
- * readLine
- * getLine
- * getLineIf
- * clearTable
- * mageInsert
- * capaciteInsert
- * equipeInsert
- * matchInsert
- * roleInsert */
+ * GetValue
+ * ReadTable
+ * GetTable
+ * ReadLine
+ * GetLine
+ * GetLineIf
+ * ClearTable
+ * MageInsert
+ * CapaciteInsert
+ * EquipeInsert
+ * MatchInsert
+ * RoleInsert */
 
 public static class bdd
 {
-    private static SqliteConnection _connexion; //le liens avec la base de donné
+    private static SqliteConnection _connexion; //le lien avec la base de donnée
 
     // methode qui créer la connexion a la base de donné.
     // a lancé au debut du program
-    public static void connection()
+    public static void Connection()
     {
         string connectionBddString = "Data Source=..\\..\\..\\BDD";
         _connexion = new SqliteConnection(connectionBddString);
         _connexion.Open();
     }
     
-    // methode pour fermer la connexion a la base de donné.
-    // a lancé a la fin du programme
-    public static void closeConnection()
+    // Methode pour fermer la connexion à la base de donnée.
+    // A lancé à la fin du programme
+    public static void CloseConnection()
     {
         _connexion.Dispose();
     }
@@ -52,7 +52,7 @@ public static class bdd
     // permet de modifier une valeur spécifique dans une table
     public static void UpdateValue(string table,int Id, string colonne, object value)
     {
-        // on créer la commande
+        // on crée la commande
         string UpdateQuery =
             $"UPDATE {table} SET {colonne} = $value WHERE Id = $Id"; 
         var commandUpdate = new SqliteCommand(UpdateQuery, _connexion);
@@ -67,9 +67,9 @@ public static class bdd
     }
     
     // renvoie une valeur specifique d'une table
-    public static string getValue(string table,int Id, string colonne)
+    public static string GetValue(string table,int Id, string colonne)
     {
-        // on créer la commande
+        // on crée la commande
         string selectQuery = $"SELECT {colonne} FROM {table}  WHERE Id = $id"; 
         var commandSelect = new SqliteCommand(selectQuery, _connexion);
         
@@ -85,8 +85,8 @@ public static class bdd
         return value;
     }
     
-    // écrit dans la console tout le contenue d'une table
-    public static void readTable(string table)
+    // écrit dans la console tout la contenue d'une table
+    public static void ReadTable(string table)
     {
         // on créer la commande
         string selectQuery = $"SELECT * FROM {table}";
@@ -109,11 +109,12 @@ public static class bdd
         }
     }
     
-    // renvoie tout le contenue d'une table.
-    // le contenue est renvoyer sous forme d'une liste de dictionnaire.
-    // on peut récupéré le contenue : lignes[numéroDeLaLigne]["NomDeLaColonne"]
-    // attention ne pas confondre le numéro de la ligne avec l'id ils sont différents
-    public static List<Dictionary<string, object>> getTable(string table)
+    // Renvoie tout la contenue d'une table.
+    // Le contenu est renvoyée sous forme d'une liste de dictionnary.
+    // On peut récupérer la contenue : lignes[numéroDeLaLigne]["NomDeLaColonne"]
+    // peut etre utiliser avec des foreach()
+    // attention ne pas confondre le numéro de la ligne avec l'id, ils sont différents.
+    public static List<Dictionary<string, object>> GetTable(string table)
     {
         // on créer la commande
         string selectQuery = $"SELECT * FROM {table}";
@@ -140,7 +141,7 @@ public static class bdd
         return lignes;
     }
     
-    // écrit le contenue d'une ligne
+    // écrit le contenu d'une ligne
     public static void ReadLine(string table, int id)
     {
         string selectQuery = $"SELECT * FROM {table} WHERE Id = $id";
@@ -159,8 +160,9 @@ public static class bdd
         }
     }
     
-    // renvoie le contenue d'une ligne
-    public static Dictionary<string, object> getLine(string table, int id)
+    // renvoie le contenu d'une ligne sous forme de dictionnary
+    // vous pouver récupéré les données sous la forme : ligne["NomDeLaColonne"]
+    public static Dictionary<string, object> GetLine(string table, int id)
     {
         string selectQuery = $"SELECT * FROM {table} WHERE Id = $id";
         var commandSelect = new SqliteCommand(selectQuery, _connexion);
@@ -179,8 +181,8 @@ public static class bdd
         return ligne;
     }
     
-    // renvoie les ligne d'une table d'on la bonne valeur dans la colonne choisie
-    public static List<Dictionary<string, object>> getLineIf(string table, string colonne, object value)
+    // renvoie les lignes d'une table qui ont la bonne valeur dans la colonne choisie
+    public static List<Dictionary<string, object>> GetLineIf(string table, string colonne, object value)
     {
         string selectQuery = $"SELECT * FROM {table} WHERE {colonne} = $value";
         var commandSelect = new SqliteCommand(selectQuery, _connexion);
@@ -201,10 +203,9 @@ public static class bdd
         return lignes;
     }
     
-    // reset toute la table selectionné pour remettre a zero apres un teste. 
-    // remet aussi a zero l'incrémentation
-    // attention sa suprime toute les données de la table!
-    // a utilisé pour suprimmé les donné de teste
+    // Reset toute la table selectionné pour remettre à zero apres un teste. 
+    // Remet aussi à zero l'incrémentation
+    // !!! Attention sa suprime toutes les données de la table!!!!
     public static void ClearTable(string table)
     {
         string DeleteQuery = $"DELETE FROM {table}";
@@ -219,14 +220,14 @@ public static class bdd
     }
 
     // permet d'insérer une nouvelle ligne dans la table Mage
-    public static void mageInsert(string Nom, string Prenom, bool Apte, int PV, int MaxPV, int Defense, int Attaque, int Mana, int Corruption, int Foi)
+    public static void MageInsert(string Nom, string Prenom, bool Apte, int PV, int MaxPV, int Defense, int Attaque, int Mana, int Corruption, int Foi)
     {
         // je créer la commande
         string insertQuery =
             "INSERT INTO Mage (Nom, Prenom, Apte, PV, MaxPV, Defense, Attaque, Mana, Corruption, Foi) VALUES ($Nom, $Prenom, $Apte, $PV, $MaxPV, $Defense, $Attaque, $Mana, $Corruption, $Foi)";
         var commandInsert = new SqliteCommand(insertQuery, _connexion);
         
-        // je définit les parametre de la commande
+        // je définis les parametre de la commande
         commandInsert.Parameters.AddWithValue("$Nom", Nom);
         commandInsert.Parameters.AddWithValue("$Prenom", Prenom);
         commandInsert.Parameters.AddWithValue("$Apte", Apte);
@@ -244,7 +245,7 @@ public static class bdd
     }
     
     // permet d'insérer une nouvelle ligne dans la table Capacite
-    public static void capaciteInsert(string Nom, string Description, int NiveauDeStateMin)
+    public static void CapaciteInsert(string Nom, string Description, int NiveauDeStateMin)
     {
         string insertQuery =
             "INSERT INTO Capacite (Nom, Description, NiveauDeStateMin) VALUES ($Nom, $Description, $StateMin)";
@@ -257,7 +258,7 @@ public static class bdd
     }
     
     // permet d'insérer une nouvelle ligne dans la table Equipe
-    public static void equipeInsert(string Nom)
+    public static void EquipeInsert(string Nom)
     {
         string insertQuery =
             "INSERT INTO Capacite (Nom) VALUES ($Nom)";
@@ -268,7 +269,7 @@ public static class bdd
     }
     
     // permet d'insérer une nouvelle ligne dans la table Match_
-    public static void matchInsert(int victoire)
+    public static void MatchInsert(int victoire)
     {
         string insertQuery =
             "INSERT INTO Capacite (Victoire) VALUES ($victoire)";
@@ -279,7 +280,7 @@ public static class bdd
     }
     
     // permet d'insérer une nouvelle ligne dans la table Role
-    public static void roleInsert(string Nom, string Description, string StateRequise, int NiveauDeStateMin)
+    public static void RoleInsert(string Nom, string Description, string StateRequise, int NiveauDeStateMin)
     {
         string insertQuery =
             "INSERT INTO Capacite (Nom, Description, StateRequise, NiveauDeStateMin) VALUES ($Nom, $Description, $StateRequise, $NiveauDeStateMin)";
