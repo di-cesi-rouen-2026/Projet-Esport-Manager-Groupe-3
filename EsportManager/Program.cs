@@ -13,6 +13,8 @@ bdd.Connection(); // lance la connexion à la base de donnée
 // on peut intéragir avec la base de donnée via bdd._connexion
 // ou en utilisant bdd.NomDuneMethode()
 
+string contentMissing = "ce contenue n'as pas encore étais ajouté au jeux.";
+string nomChef;
 
 
 //===============================================[Intro]=====================================================
@@ -69,12 +71,12 @@ while (restart)
 
 Console.WriteLine("");
 Console.WriteLine("HERO quel est votre nom ?");
-string nomchef = Console.ReadLine();
+nomChef = Console.ReadLine();
 Console.WriteLine();
 Thread.Sleep(1000);
 Console.WriteLine("A VOUS DE JOUER !");
 Console.WriteLine("");
-String go =$"NOUS COMPTONS SUR VOUS {nomchef}";
+String go =$"NOUS COMPTONS SUR VOUS {nomChef}";
 foreach (char c in go)
 {
     Console.Write(c);
@@ -85,25 +87,23 @@ foreach (char c in go)
 //On lance le menu principal qui permet de jouer au jeu
 
 
-string contentMissing = "ce contenue n'as pas encore étais ajouté au jeux.";
-
 bool gameContinue = true;
 string choixMenu;
 while (gameContinue)
 {
     Console.WriteLine("");
     Thread.Sleep(500);
-    Console.WriteLine("[Menu principal]");
+    Console.WriteLine("================= MENU PRINCIPAL =================");
     Thread.Sleep(200);
-    Console.Write("0 QUITTER ");
+    Console.Write("0.QUITTER        ");
     Thread.Sleep(200);
-    Console.Write("1 GERER VOS MAGES ");
+    Console.Write("1.GERER VOS MAGES        ");
     Thread.Sleep(200);
-    Console.Write("2 GERER LES EQUIPES ");
+    Console.Write("2.GERER LES EQUIPES      ");
     Thread.Sleep(200);
-    Console.Write("3 ORGANISER UN MATCH ");
+    Console.Write("3.ORGANISER UN MATCH     ");
     Thread.Sleep(200);
-    Console.Write("4 RECRUTER");
+    Console.Write("4.RECRUTER       ");
     Console.WriteLine("");
     choixMenu = Console.ReadLine();
     switch(choixMenu)
@@ -134,13 +134,13 @@ while (gameContinue)
 }
 
 //======================================================[Partie du Jeu]===================================================
-//On écrit les différentes parties du jeu qu'on pourra appeler via le menu
+//On écrit les différentes parties du jeu qu'on pourra appeler via le menu Principale
 
 void finDuJeu()
 {
     Thread.Sleep(500);
     Console.WriteLine("");
-    Console.WriteLine($"Merci {nomchef} d'avoir joué. toute donnés non sauvegarder sera perdu");
+    Console.WriteLine($"Merci {nomChef} d'avoir joué. toute donnés non sauvegarder sera perdu");
     Console.WriteLine("enfin pour l'instant on a pas de système de save donc...");
     gameContinue = false;
 }
