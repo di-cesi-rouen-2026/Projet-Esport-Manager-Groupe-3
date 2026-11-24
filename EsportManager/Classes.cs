@@ -19,23 +19,17 @@ public class Mage
         Defense = defense;
         Pouvoir = pouvoir;
     }
-}
-
-public class Degats
-{
-     public int PvActuels { get; set; }
-    public int Attaque { get; }
-    public int Defense { get; }
-
-    public Degats(int pvActuels, int attaque, int defense)
+    public int Degats(Mage Mage2)
     {
-        PvActuels = pvActuels;
-        Attaque = attaque;
-        Defense = defense;
+        int degats = Math.Max(1, Attaque - Mage2.Defense);
+        Mage2.Pv = Math.Max(0, Mage.Pv - degats);
+
+        return Mage2.Pv;
     }
-    public int DegatsInfliges => Math.Max(1, Attaque - Defense);
-    public int PvRestants => Math.Max(0, PvActuels - DegatsInfliges);
+
 }
+
+
 
 
 public static class ListeMages
