@@ -19,12 +19,11 @@ public class Mage
         Defense = defense;
         Pouvoir = pouvoir;
     }
-    public int Degats(Mage Mage2)
+    public void Degats(Mage Mage2)
     {
         int degats = Math.Max(1, Attaque - Mage2.Defense);
         Mage2.Pv = Math.Max(0, Mage.Pv - degats);
 
-        return Mage2.Pv;
     }
 
 }
