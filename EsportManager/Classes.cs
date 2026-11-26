@@ -22,7 +22,7 @@ public class Mage
     public void Degats(Mage Mage2)
     {
         int degats = Math.Max(1, Attaque - Mage2.Defense);
-        Mage2.Pv = Math.Max(0, Mage.Pv - degats);
+        Mage2.Pv = Math.Max(0, Mage2.Pv - degats);
 
     }
 
