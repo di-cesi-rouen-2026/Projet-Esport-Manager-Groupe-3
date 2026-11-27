@@ -173,3 +173,97 @@ void recruter()
 //======================================================[Fin du programme]===================================================
 
 bdd.CloseConnection(); // ferme la connexion à la base de donnée
+
+//=====================================================[creation du premier combat automatique 3vs3]
+List<Mage> equipe1 = Equipe.Creer();
+List<Mage> equipe2 = Equipe.Creer();
+
+Console.WriteLine("Voulez vous lancer un premier combat?");
+Console.WriteLine("1.oui ========= 2.non ");
+string choixcombatt = Console.ReadLine();
+int.TryParse(choixcombatt, out int choixcombat);
+
+
+//FONCTION SORT POUR DECIDER QUEL MAGE VA APPLIQUER SON ROLE PAR TOUR
+Random hasard = new Random();
+
+int indice = hasard.Next(equipe2.Count);
+Mage cible = equipe2[indice];
+
+//Console.WriteLine($"Le sort cible {cible.Nom} !");
+//equipe1[0].Degats(cible);
+
+
+
+
+// LE COMBAT COMMENCE
+
+if (choixcombat==1)
+{
+    Console.WriteLine($"VOICI LES MAGES QUI FERONT PARTIE DE TON EQUIPE");
+    foreach (Mage mage in equipe1){
+        Console.WriteLine($"{mage.Nom} a {mage.Pv}/{mage.PvMax} PV.");
+        Console.WriteLine($"Ce mage est un {mage.Role} et possede le pouvoir de {mage.Pouvoir}");
+    }
+
+    Console.WriteLine($"VOICI LES MAGES DE L'EQUIPE ADVERSAIRE");
+    foreach (Mage mage in equipe2){
+        Console.WriteLine($"{mage.Nom} a {mage.Pv}/{mage.PvMax} PV.");
+        Console.WriteLine($"Ce mage est un {mage.Role} et possede le pouvoir de {mage.Pouvoir}");
+    }
+
+
+    int i = 0;
+    Console.WriteLine($"VOUS COMMENCEZ A ATTAQUER!!");
+    while (Equipe.EncoreEnVie(equipe1) && Equipe.EncoreEnVie(equipe2))
+    {
+        i++;
+        Console.WriteLine($"========================== TOUR {i} =========================");
+        
+        //ATTAQUE DE LEQUIPE 1 VERS LEQUIPE 2//
+        if(equipe2[1].Pv > 0){
+            equipe1[0].Degats(equipe2[1]);
+            Console.WriteLine($"{equipe2[1].Nom} a maintenant {equipe2[1].Pv} PV.");
+        }
+        else if(equipe2[0].Pv > 0){
+            Console.WriteLine($"VOUS AVEZ VAINCU LE DEFENSEUR!! ");
+            equipe1[0].Degats(equipe2[0]);
+            Console.WriteLine($"{equipe2[0].Nom} a maintenant {equipe2[0].Pv} PV.");
+        }
+        else{
+            Console.WriteLine($"VOUS AVEZ VAINCU LE SOIGNANT!! ");
+            equipe1[0].Degats(equipe2[2]);
+            Console.WriteLine($"{equipe2[2].Nom} a maintenant {equipe2[2].Pv} PV.");
+        }
+        
+        //ATTAQUE DE LEQUIPE 2 VERS LEQUIPE 1//
+        if(equipe1[1].Pv > 0){
+            equipe2[0].Degats(equipe1[1]);
+            Console.WriteLine($"{equipe1[1].Nom} a maintenant {equipe1[1].Pv} PV.");
+        }
+        else if(equipe2[0].Pv > 0){
+            Console.WriteLine($"VOUS AVEZ VAINCU LE DEFENSEUR!! ");
+            equipe2[0].Degats(equipe1[0]);
+            Console.WriteLine($"{equipe1[0].Nom} a maintenant {equipe1[0].Pv} PV.");
+        }
+        else{
+            Console.WriteLine($"VOUS AVEZ VAINCU LE SOIGNANT!! ");
+            equipe2[0].Degats(equipe1[2]);
+            Console.WriteLine($"{equipe1[2].Nom} a maintenant {equipe1[2].Pv} PV.");
+        }
+
+    }
+
+    if (!Equipe.EncoreEnVie(equipe1))
+    {
+        Console.WriteLine("VOUS ETES NUL");
+    }
+    else
+    {
+        Console.WriteLine("BRAVO, VOUS AVEZ BATTU L'EQUIPE ADVERSAIRE");
+    }
+
+
+};
+
+
